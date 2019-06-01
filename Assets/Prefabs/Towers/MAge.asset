@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a9036ba519a5e04cb03bde81b4ad59f, type: 3}
+  m_Name: MAge
+  m_EditorClassIdentifier: 
+  T_Prefab: {fileID: 6607659223532739856, guid: 829287244a93b0d47aa8e6086a981d85,
+    type: 3}
+  T_Icon: {fileID: 0}
+  T_Price: 1000
+  T_Name: Tour des mages
+  T_Description: Des vieux en robe de chambre
