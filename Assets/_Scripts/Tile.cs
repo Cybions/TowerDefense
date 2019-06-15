@@ -12,23 +12,28 @@ public class Tile : MonoBehaviour
     private Vector3 DestinationPos;
     private Tweener MovementTweener;
     public bool isAtOrigin = true;
+
+    private ParticleSystem Tile_Particles;
+
     private void Start()
     {
-        if (!isInteracible) { this.enabled = false; }
+        if (!isInteracible) { Destroy(this); }
         OriginPos = transform.position;
         DestinationPos = OriginPos;
         DestinationPos.y += .2f;
         MovementTweener = transform.DOMove(OriginPos, 0f);
+        Tile_Particles = GetComponentInChildren<ParticleSystem>();
     }
     private void OnMouseOver()
     {
-        if (isAtOrigin)
+        if (isAtOrigin && SystemInfo.deviceType == DeviceType.Desktop)
         {
             isAtOrigin = false;
-            MovementTweener.Kill();
-            MovementTweener = transform.DOMove(DestinationPos, .8f);
+            //MovementTweener.Kill();
+            //MovementTweener = transform.DOMove(DestinationPos, .8f);
+            Tile_Particles.Play();
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !NarrationManager.Instance.isSpeaking && LevelManager.Instance.CanDoAction)
         {
             AskSelector();
         }
@@ -38,9 +43,16 @@ public class Tile : MonoBehaviour
         if (!isAtOrigin)
         {
             isAtOrigin = true;
-            MovementTweener.Kill();
-            MovementTweener = transform.DOMove(OriginPos, 0f);
+            //MovementTweener.Kill();
+            //MovementTweener = transform.DOMove(OriginPos, 0f);
+            Tile_Particles.Stop();
+            Invoke("ClearParticles", .1f);
         }
+    }
+
+    void ClearParticles()
+    {
+        Tile_Particles.Clear();
     }
 
     private void AskSelector()
@@ -48,6 +60,10 @@ public class Tile : MonoBehaviour
         if(My_Tower == null && !TowerSelector.Instance.isOpen)
         {
             TowerSelector.Instance.AskNewTower(this);
+        }
+        if(My_Tower != null && !TowerSelector.Instance.isOpen)
+        {
+            TowerSelector.Instance.AskUpgrade(this);
         }
     }
 }

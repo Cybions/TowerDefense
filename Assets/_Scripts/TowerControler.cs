@@ -63,7 +63,7 @@ public class TowerControler : MonoBehaviour
         int i = 0;
         while (i < EnnemiesInRange.Count)
         {
-            if (GameManager.Instance.EnnemiesInLevel.Contains(EnnemiesInRange[i]))
+            if (LevelManager.Instance.isEnnemyAlive(EnnemiesInRange[i]))
             {
                 return EnnemiesInRange[i];
             }

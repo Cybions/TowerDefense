@@ -24,14 +24,14 @@ public class TowerInfoPanel : MonoBehaviour
         NameField.text = tower.T_Name;
         DescriptionField.text = tower.T_Description;
         PriceField.text = tower.T_Price.ToString();
-        PriceBTN.interactable = (GameManager.Instance.Player_Gold >= tower.T_Price);
+        PriceBTN.interactable = (LevelManager.Instance.PlayerGold >= tower.T_Price);
         CurrentTowerID = TowerID;
-        AnimationTw = transform.DOScale(Vector3.one, .8f);
+        AnimationTw = transform.DOScale(Vector3.one, .2f);
     }
     public void CloseInfo()
     {
         AnimationTw.Kill();
-        transform.DOScale(Vector3.zero, 0f);
+        transform.DOScale(Vector3.zero, .2f);
     }
     public void ConfirmConstruction()
     {

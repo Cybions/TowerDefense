@@ -105,9 +105,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2fdb2a9eba0cad4fb0a73de009f9e1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 0
+  Damage: 5
   Speed: 1
   Life: 25
+  Gold: 50
   Path:
   - {fileID: 0}
   - {fileID: 0}

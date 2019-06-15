@@ -17,32 +17,25 @@ public class EnnemySpawner : MonoBehaviour
     private float Delay;
     private Wave CurrentWave;
 
-    public void Spawn(Wave newWave)
+    public void StartWave()
     {
-        foreach(ParticleSystem ps in My_particles)
+        foreach (ParticleSystem ps in My_particles)
         {
             ps.Play();
         }
-        CurrentWave = newWave;
-        if(CurrentWave.CustomSpawnDelay >= 0)
+    }
+    public void StopWave()
+    {
+        foreach (ParticleSystem ps in My_particles)
         {
-            Delay = CurrentWave.CustomSpawnDelay;
+            ps.Stop();
         }
-        else
-        {
-            Delay = spawnDelay;
-        }
-        StartCoroutine(StartWave());
     }
 
-    IEnumerator StartWave()
+    public Ennemy SpawnEnnemy(Ennemy ennemy)
     {
-        foreach(Ennemy en in CurrentWave.EnnemyList)
-        {
-            Ennemy newEn = Instantiate(en, SpawnTransform);
-            newEn.Setup(Path);
-            GameManager.Instance.EnnemiesInLevel.Add(newEn);
-            yield return new WaitForSeconds(Delay);
-        }
+        Ennemy newEn = Instantiate(ennemy, SpawnTransform);
+        newEn.Setup(Path);
+        return newEn;
     }
 }

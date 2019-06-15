@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class TowerSelector : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class TowerSelector : MonoBehaviour
     [SerializeField]
     private Transform Buy;
     [SerializeField]
+    private Transform Upgrade;
+    [SerializeField]
     private TowerInfoPanel TIP;
     [SerializeField]
     private Transform contentScroll;
@@ -20,6 +23,8 @@ public class TowerSelector : MonoBehaviour
 
     private Tile CurrentTile;
     private List<BuyTowerBTN> BuyList;
+    public UnityEvent OnTowerBuilt;
+    public UnityEvent OnTowerUpgraded;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,14 +39,20 @@ public class TowerSelector : MonoBehaviour
     }
     public void AskUpgrade(Tile tileAsking)
     {
-
+        CurrentTile = tileAsking;
+        ToggleUpgradeWindow(true);
     }
     public void ConstructTower(int TowerID)
     {
         CurrentTile.My_Tower = new Tower(ConstructibleTowers[TowerID]);
         Instantiate(CurrentTile.My_Tower.T_Prefab, CurrentTile.TowerSpot);
         ToggleBuyWindow(false);
-        GameManager.Instance.ChangeGold(-CurrentTile.My_Tower.T_Price);
+        LevelManager.Instance.ChangeGold(-CurrentTile.My_Tower.T_Price);
+        OnTowerBuilt.Invoke();
+    }
+    public void UpgradeTower()
+    {
+        OnTowerUpgraded.Invoke();
     }
     public void ToggleBuyWindow(bool open)
     {
@@ -61,12 +72,26 @@ public class TowerSelector : MonoBehaviour
                 BuyList.Add(newBTN);
                 i++;
             }
-            Buy.transform.DOScale(Vector3.one, .8f);
+            Buy.transform.DOScale(Vector3.one, .2f);
         }
         else
         {
-            Buy.transform.DOScale(Vector3.zero, .8f);
+            Buy.transform.DOScale(Vector3.zero, .2f);
             TIP.CloseInfo();
+            isOpen = false;
+        }
+    }
+    public void ToggleUpgradeWindow(bool open)
+    {
+        if (open)
+        {
+            isOpen = true;
+            //Upgrade.transform.DOScale(Vector3.one, .2f);
+            OnTowerUpgraded.Invoke();//DELETEME
+        }
+        else
+        {
+            Upgrade.transform.DOScale(Vector3.zero, .2f);
             isOpen = false;
         }
     }

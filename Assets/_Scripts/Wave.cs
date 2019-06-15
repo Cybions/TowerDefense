@@ -6,5 +6,5 @@ using UnityEngine;
 public class Wave : ScriptableObject
 {
     public List<Ennemy> EnnemyList;
-    public float CustomSpawnDelay = -1f;
+    public float SpawnDelay = .95f;
 }

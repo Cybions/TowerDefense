@@ -8,7 +8,7 @@ public class Ennemy : MonoBehaviour
     public float Damage;
     public float Speed;
     public float Life;
-    private float Gold = 2;
+    public float Gold = 2;
 
     public List<Transform> Path = new List<Transform>();
     // Start is called before the first frame update
@@ -34,6 +34,7 @@ public class Ennemy : MonoBehaviour
             yield return new WaitWhile(Movement.IsPlaying);
             i++;
         }
+        LevelManager.Instance.OnEnnemyReachTown(this);
     }
 
     private float GetTimeBySpeed(Vector3 Destination)
@@ -52,8 +53,6 @@ public class Ennemy : MonoBehaviour
 
     void Die()
     {
-        GameManager.Instance.EnnemiesInLevel.Remove(this);
-        GameManager.Instance.ChangeGold(Gold);
-        Destroy(gameObject);
+        LevelManager.Instance.OnEnnemyDied(this);
     }
 }

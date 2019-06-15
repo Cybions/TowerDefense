@@ -16,11 +16,4 @@ MonoBehaviour:
   - {fileID: 6041703622767201265, guid: 06ae66bcf73fe564ab831ece18164719, type: 3}
   - {fileID: 6041703622767201265, guid: 06ae66bcf73fe564ab831ece18164719, type: 3}
   - {fileID: 6041703622767201265, guid: 06ae66bcf73fe564ab831ece18164719, type: 3}
-  - {fileID: 6041703622767201265, guid: 06ae66bcf73fe564ab831ece18164719, type: 3}
-  - {fileID: 6041703622767201265, guid: 06ae66bcf73fe564ab831ece18164719, type: 3}
-  - {fileID: 6041703622767201265, guid: 06ae66bcf73fe564ab831ece18164719, type: 3}
-  - {fileID: 6041703622767201265, guid: 06ae66bcf73fe564ab831ece18164719, type: 3}
-  - {fileID: 6041703622767201265, guid: 06ae66bcf73fe564ab831ece18164719, type: 3}
-  - {fileID: 6041703622767201265, guid: 06ae66bcf73fe564ab831ece18164719, type: 3}
-  - {fileID: 6041703622767201265, guid: 06ae66bcf73fe564ab831ece18164719, type: 3}
-  CustomSpawnDelay: -1
+  SpawnDelay: 0.95

@@ -2,39 +2,56 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using DG.Tweening;
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    public List<Ennemy> EnnemiesInLevel;
-    public float Player_Gold = 650;
+
+    [SerializeField]
+    private TextMeshProUGUI LifeField;
+    [SerializeField]
+    private TextMeshProUGUI WaveField;
     [SerializeField]
     private TextMeshProUGUI GoldField;
-    [SerializeField]
-    private List<EnnemySpawner> ennemySpawners;
-    [SerializeField]
-    private List<Wave> ListWave;
 
-    
+    public Button StartWaveBTN;
 
     private void Start()
     {
         Instance = this;
-        EnnemiesInLevel = new List<Ennemy>();
-        Invoke("SpawnWave", 10);
     }
 
-    void SpawnWave()
+    public void StartWave()
     {
-        foreach(EnnemySpawner es in ennemySpawners)
-        {
-            es.Spawn(ListWave[0]);
-        }
+        LevelManager.Instance.StartNewWave();
+        StartWaveBTN.interactable = false;
+    }
+
+    public void OnEndWave()
+    {
+        StartWaveBTN.interactable = true;
+    }
+
+    public void OnEndLevel()
+    {
+        print("YOU WIN");
     }
 
     public void ChangeGold(float amount)
     {
-        Player_Gold += amount;
-        GoldField.text = "Gold: " + Player_Gold.ToString();
-        print("Changed " + amount + " Gold");
+        GoldField.text = amount.ToString();
+    }
+
+    public void ChangeWave(int Current, int Max)
+    {
+        WaveField.text = Current.ToString() + "/" + Max.ToString();
+    }
+
+    public void ChangeLife(float amount)
+    {
+        LifeField.text = amount.ToString();
+        LifeField.transform.DOShakePosition(.2f);
     }
 }
