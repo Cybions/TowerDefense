@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.Events;
 
 public class NarrationManager : MonoBehaviour
 {
     public static NarrationManager Instance;
-    public List<Character> Characters;
 
     [SerializeField]
     private Image LeftSideIcon;
@@ -25,6 +25,8 @@ public class NarrationManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI NameFieldRight;
 
+    public UnityEvent OnEndDiscussion;
+
     private List<TextLine> CurrentDiscussion;
     public bool isSpeaking = false;
     private Tweener NarrationAction = null;
@@ -36,10 +38,10 @@ public class NarrationManager : MonoBehaviour
         ResetPanel(Color.clear);
     }
 
-    public void NewDiscussion(List<TextLine> discussion, bool isTuto = false)
+    public void NewDiscussion(Discussion discussion, bool isTuto = false)
     {
         istuto = isTuto;
-        CurrentDiscussion = discussion;
+        CurrentDiscussion = discussion.TextList;
         StartCoroutine(Speak());
     }
 
@@ -58,25 +60,26 @@ public class NarrationManager : MonoBehaviour
         {
             TextMeshProUGUI field;
             TextMeshProUGUI name;
-            ResetPanel(Characters[line.CharacterIndex].BackgroundColor);
+            ResetPanel(line.Speaker.BackgroundColor);
             yield return new WaitForSeconds(0.5f);
             if (line.CharacterSide == TextLine.Side.left)
             {
-                LeftSideIcon.sprite = Characters[line.CharacterIndex].Icon;
+                LeftSideIcon.sprite = line.Speaker.Icon;
                 NarrationAction = LeftSideIcon.DOFade(1, .3f);
                 field = TextFieldLeft;
                 name = NameFieldLeft;
             }
             else
             {
-                RightSideIcon.sprite = Characters[line.CharacterIndex].Icon;
+                RightSideIcon.sprite = line.Speaker.Icon;
                 NarrationAction = RightSideIcon.DOFade(1, .3f);
                 field = TextFieldRight;
                 name = NameFieldRight;
             }
             yield return new WaitWhile(() => NarrationAction.IsComplete());
             field.text = line.CharacterTextLine;
-            name.text = Characters[line.CharacterIndex].Name;
+            name.text = line.Speaker.Name;
+            if (line.DoScreenShake) { ScreenShake(); }
             name.DOFade(1, .3f);
             NarrationAction = field.DOFade(1, .3f);
             yield return new WaitWhile(() => NarrationAction.IsComplete());
@@ -89,6 +92,7 @@ public class NarrationManager : MonoBehaviour
         {
             TutorialManager.Instance.NextTutorial();
         }
+        Invoke("EndDiscussion", .5f);
     }
 
     private void ResetPanel(Color BackgroundColor)
@@ -100,5 +104,15 @@ public class NarrationManager : MonoBehaviour
         TextFieldRight.DOFade(0, .3f).OnComplete(delegate { TextFieldRight.text = ""; });
         NameFieldRight.DOFade(0, .3f).OnComplete(delegate { TextFieldLeft.text = ""; });
         NameFieldLeft.DOFade(0, .3f).OnComplete(delegate { TextFieldLeft.text = ""; });
+    }
+
+    public void ScreenShake()
+    {
+        Background.transform.parent.DOShakePosition(.5f, 15f,20);
+    }
+
+    public void EndDiscussion()
+    {
+        OnEndDiscussion.Invoke();
     }
 }

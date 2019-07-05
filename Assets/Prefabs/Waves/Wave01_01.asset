@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Wave01_01
   m_EditorClassIdentifier: 
   EnnemyList:
-  - {fileID: 6041703622767201265, guid: 06ae66bcf73fe564ab831ece18164719, type: 3}
-  - {fileID: 6041703622767201265, guid: 06ae66bcf73fe564ab831ece18164719, type: 3}
-  - {fileID: 6041703622767201265, guid: 06ae66bcf73fe564ab831ece18164719, type: 3}
+  - {fileID: 2636751750352671379, guid: 8ef07544e8bcfe64bb9b8c82c194d69f, type: 3}
+  - {fileID: 2636751750352671379, guid: 8ef07544e8bcfe64bb9b8c82c194d69f, type: 3}
+  - {fileID: 2636751750352671379, guid: 8ef07544e8bcfe64bb9b8c82c194d69f, type: 3}
   SpawnDelay: 0.95

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TextLine : MonoBehaviour
+[CreateAssetMenu(fileName = "NewTxtLine", menuName = "Discussion/Textline", order = 1)]
+public class TextLine : ScriptableObject
 {
-    public int CharacterIndex;
+    public Character Speaker;
     public string CharacterTextLine;
     public enum Side
     {
@@ -12,4 +13,5 @@ public class TextLine : MonoBehaviour
         right
     }
     public Side CharacterSide;
+    public bool DoScreenShake = false;
 }

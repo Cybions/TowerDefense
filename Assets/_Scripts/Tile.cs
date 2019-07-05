@@ -57,11 +57,11 @@ public class Tile : MonoBehaviour
 
     private void AskSelector()
     {
-        if(My_Tower == null && !TowerSelector.Instance.isOpen)
+        if(My_Tower == null && !TowerSelector.Instance.isOpenBuy)
         {
             TowerSelector.Instance.AskNewTower(this);
         }
-        if(My_Tower != null && !TowerSelector.Instance.isOpen)
+        if(My_Tower != null && !TowerSelector.Instance.isOpenUpg)
         {
             TowerSelector.Instance.AskUpgrade(this);
         }

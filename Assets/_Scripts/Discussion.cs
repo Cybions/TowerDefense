@@ -2,8 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Discussion : MonoBehaviour
+[CreateAssetMenu(fileName = "NewDiscussion", menuName = "Discussion/Discussion", order = 2)]
+public class Discussion : ScriptableObject
 {
-    public int D_CharacterIndex;
-    public TextLine D_TextLine;
+    public List<TextLine> TextList;
+    public DiscussionTrigger ConditionTrigger;
+    public enum DiscussionTrigger
+    {
+        OnStartLevel,
+        OnTowerBuilt,
+        OnTowerUpgraded,
+        OnWaveEnd,
+        OnEndLevel,
+        OnEndDiscussion,
+        none
+    }
 }

@@ -9,7 +9,8 @@ public class TowerSelector : MonoBehaviour
 {
     public static TowerSelector Instance;
     public List<Tower> ConstructibleTowers;
-    public bool isOpen = false;
+    public bool isOpenBuy = false;
+    public bool isOpenUpg = false;
     [SerializeField]
     private Transform Buy;
     [SerializeField]
@@ -41,6 +42,7 @@ public class TowerSelector : MonoBehaviour
     {
         CurrentTile = tileAsking;
         ToggleUpgradeWindow(true);
+        print("ASKED");
     }
     public void ConstructTower(int TowerID)
     {
@@ -58,7 +60,7 @@ public class TowerSelector : MonoBehaviour
     {
         if (open)
         {
-            isOpen = true;
+            isOpenBuy = true;
             foreach (BuyTowerBTN btn in BuyList)
             {
                 Destroy(btn.gameObject);
@@ -78,21 +80,20 @@ public class TowerSelector : MonoBehaviour
         {
             Buy.transform.DOScale(Vector3.zero, .2f);
             TIP.CloseInfo();
-            isOpen = false;
+            isOpenBuy = false;
         }
     }
     public void ToggleUpgradeWindow(bool open)
     {
         if (open)
         {
-            isOpen = true;
-            //Upgrade.transform.DOScale(Vector3.one, .2f);
-            OnTowerUpgraded.Invoke();//DELETEME
+            isOpenUpg = true;
+            Upgrade.transform.DOScale(Vector3.one, .2f);
         }
         else
         {
             Upgrade.transform.DOScale(Vector3.zero, .2f);
-            isOpen = false;
+            isOpenUpg = false;
         }
     }
     public void AskTowerInfo(int TowerID)

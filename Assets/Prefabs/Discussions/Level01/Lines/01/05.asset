@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c2425d5bc274341b3480dbcb47cebb, type: 3}
+  m_Name: 05
+  m_EditorClassIdentifier: 
+  Speaker: {fileID: 11400000, guid: f9bc9c5f52f49fc4398de6f848c190fd, type: 2}
+  CharacterTextLine: "Impossible ! Nous devons prot\xE9ger le roi. Faites moi un rapport
+    soldat."
+  CharacterSide: 0
+  DoScreenShake: 0

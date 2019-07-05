@@ -5,8 +5,6 @@ using UnityEngine;
 public class EnnemySpawner : MonoBehaviour
 {
     [SerializeField]
-    private bool SpawnAtStart = true;
-    [SerializeField]
     private List<ParticleSystem> My_particles;
     [SerializeField]
     private float spawnDelay = 1.2f;
@@ -16,6 +14,7 @@ public class EnnemySpawner : MonoBehaviour
     private List<Transform> Path;
     private float Delay;
     private Wave CurrentWave;
+
 
     public void StartWave()
     {

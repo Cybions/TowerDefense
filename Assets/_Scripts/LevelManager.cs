@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-
+using DG.Tweening;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
@@ -13,10 +13,10 @@ public class LevelManager : MonoBehaviour
     private List<Wave> Waves;
     [SerializeField]
     private EnnemySpawner ennemySpawner;
-
     [SerializeField]
-    private bool isTutorial = false;
-
+    private bool isMenu = false;
+    public bool isTutorial = false;
+    private bool infiniteSpawnended = false;
     public int CurrentWaveNumber = 0;
     public float PlayerGold = 460.0f;
     private Wave CurrentWave;
@@ -24,16 +24,19 @@ public class LevelManager : MonoBehaviour
     private List<Ennemy> CurrentEnnemies;
     public UnityEvent OnTutoCompleted;
     public UnityEvent OnWaveEnd;
+    public UnityEvent OnLevelEnd;
+    public UnityEvent OnLevelStart;
     public bool CanDoAction = true;
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
+        if (isMenu) { CurrentWave = Waves[CurrentWaveNumber]; StartCoroutine(InfiniteWaveSpawner()); return; }
         Invoke("Infos", .1f);
         if (isTutorial)
         {
             CanDoAction = false;
-            Invoke("StartTuto", 1f);
+            Invoke("StartTuto", 1);
         }
     }
 
@@ -46,6 +49,9 @@ public class LevelManager : MonoBehaviour
     {
         GameManager.Instance.ChangeWave(CurrentWaveNumber, Waves.Count);
         GameManager.Instance.ChangeLife(TownLife);
+        GameManager.Instance.Blackscreen.DOFade(0, 1.2f).OnComplete(delegate {
+
+            OnLevelStart.Invoke(); });
     }
 
     public void StartNewWave()
@@ -79,12 +85,34 @@ public class LevelManager : MonoBehaviour
 
     public void OnEnnemyDied(Ennemy ennemy)
     {
-        ChangeGold(ennemy.Gold);        
+        if (!isMenu)
+        {
+            ChangeGold(ennemy.Gold);
+        }
+            
         CurrentEnnemies.Remove(ennemy);
         Destroy(ennemy.gameObject);
+        CheckIfEnd();
+    }
+
+    public void OnEnnemyReachTown(Ennemy ennemy)
+    {
+        if (!isMenu)
+        {
+            TownLife -= ennemy.Damage;
+            Infos();
+        }     
+        CurrentEnnemies.Remove(ennemy);
+        Destroy(ennemy.gameObject);     
+        CheckIfEnd();
+    }
+
+    private void CheckIfEnd()
+    {
         if (CurrentEnnemies.Count <= 0 && !isSpawning)
         {
-            if(Waves.Count > CurrentWaveNumber)
+            if (isMenu) { infiniteSpawnended = true; return; }
+            if (Waves.Count > CurrentWaveNumber)
             {
                 GameManager.Instance.OnEndWave();
                 OnWaveEnd.Invoke();
@@ -92,16 +120,9 @@ public class LevelManager : MonoBehaviour
             else
             {
                 GameManager.Instance.OnEndLevel();
+                OnLevelEnd.Invoke();
             }
         }
-    }
-
-    public void OnEnnemyReachTown(Ennemy ennemy)
-    {
-        TownLife -= ennemy.Damage;
-        CurrentEnnemies.Remove(ennemy);
-        Destroy(ennemy.gameObject);
-        Infos();
     }
 
     public bool isEnnemyAlive(Ennemy ennemy)
@@ -113,5 +134,14 @@ public class LevelManager : MonoBehaviour
         return false;
     }
 
-
+    private IEnumerator InfiniteWaveSpawner()
+    {
+        while (isMenu)
+        {
+            infiniteSpawnended = false;
+            StartCoroutine(WaveSpawner());
+            yield return null;
+            yield return new WaitWhile(() => !infiniteSpawnended);
+        }
+    }
 }

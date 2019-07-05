@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI GoldField;
 
+    public Image Blackscreen;
+
+
     public Button StartWaveBTN;
 
     private void Start()
@@ -31,12 +34,13 @@ public class GameManager : MonoBehaviour
 
     public void OnEndWave()
     {
-        StartWaveBTN.interactable = true;
+        StartWaveBTN.interactable = !LevelManager.Instance.isTutorial;
     }
 
     public void OnEndLevel()
     {
-        print("YOU WIN");
+        if (LevelNarration.Instance.canTrigger()) { return; }
+        EndLevel();
     }
 
     public void ChangeGold(float amount)
@@ -53,5 +57,10 @@ public class GameManager : MonoBehaviour
     {
         LifeField.text = amount.ToString();
         LifeField.transform.DOShakePosition(.2f);
+    }
+
+    public void EndLevel()
+    {
+        Blackscreen.DOFade(1, 1.2f);
     }
 }
